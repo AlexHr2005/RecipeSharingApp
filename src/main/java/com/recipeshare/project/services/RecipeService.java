@@ -3,10 +3,12 @@ package com.recipeshare.project.services;
 import com.recipeshare.project.dto.RecipeDto;
 import com.recipeshare.project.models.Recipe;
 import com.recipeshare.project.repositories.RecipeRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class RecipeService {
     private RecipeRepository recipeRepository;
 
