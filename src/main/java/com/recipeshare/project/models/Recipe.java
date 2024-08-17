@@ -31,5 +31,5 @@ public class Recipe {
     @CreationTimestamp
     private LocalDateTime timeCreated;
     @UpdateTimestamp
-    private LocalDate timeUpdated;
+    private LocalDateTime timeUpdated;
 }

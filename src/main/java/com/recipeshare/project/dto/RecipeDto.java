@@ -20,5 +20,5 @@ public class RecipeDto {
     private String content;
     //private List<Ingredient> ingredients;
     private LocalDateTime timeCreated;
-    private LocalDate timeUpdated;
+    private LocalDateTime timeUpdated;
 }
