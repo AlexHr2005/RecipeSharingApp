@@ -21,6 +21,11 @@ public class RecipeService {
         return recipes.stream().map((recipe) -> mapToDto(recipe)).collect(Collectors.toList());
     }
 
+    public RecipeDto findRecipeById(Integer id) {
+        Recipe recipe = recipeRepository.findById(id).get();
+        return mapToDto(recipe);
+    }
+
     private RecipeDto mapToDto(Recipe recipe) {
         return RecipeDto.builder().
                 id(recipe.getId()).
@@ -30,5 +35,24 @@ public class RecipeService {
                 timeCreated(recipe.getTimeCreated()).
                 timeUpdated(recipe.getTimeUpdated()).
                 build();
+    }
+
+    private Recipe mapToRecipe(RecipeDto recipeDto) {
+        return Recipe.builder().
+                id(recipeDto.getId()).
+                title(recipeDto.getTitle()).
+                content(recipeDto.getContent()).
+                photoUrl(recipeDto.getPhotoUrl()).
+                timeCreated(recipeDto.getTimeCreated()).
+                timeUpdated(recipeDto.getTimeUpdated()).
+                build();
+    }
+
+    public Recipe saveRecipe(Recipe recipe) {
+        return recipeRepository.save(recipe);
+    }
+
+    public void updateRecipe(RecipeDto recipeDto) {
+        recipeRepository.save(mapToRecipe(recipeDto));
     }
 }
