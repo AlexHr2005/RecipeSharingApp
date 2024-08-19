@@ -1,22 +1,24 @@
 package com.recipeshare.project.dto;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RecipeDto {
     private Integer id;
+    @NotEmpty(message = "Recipe title should not be empty")
     private String title;
+    @NotEmpty(message = "Photo URL should not be empty")
     private String photoUrl;
+    @NotEmpty(message = "Cooking method should not be empty")
     private String content;
     //private List<Ingredient> ingredients;
     private LocalDateTime timeCreated;

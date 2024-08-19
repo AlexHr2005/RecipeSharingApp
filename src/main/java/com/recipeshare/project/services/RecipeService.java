@@ -48,8 +48,8 @@ public class RecipeService {
                 build();
     }
 
-    public Recipe saveRecipe(Recipe recipe) {
-        return recipeRepository.save(recipe);
+    public Recipe saveRecipe(RecipeDto recipeDto) {
+        return recipeRepository.save(mapToRecipe(recipeDto));
     }
 
     public void updateRecipe(RecipeDto recipeDto) {
