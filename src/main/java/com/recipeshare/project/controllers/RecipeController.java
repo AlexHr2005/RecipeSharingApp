@@ -1,7 +1,6 @@
 package com.recipeshare.project.controllers;
 
 import com.recipeshare.project.dto.RecipeDto;
-import com.recipeshare.project.models.Recipe;
 import com.recipeshare.project.services.RecipeService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

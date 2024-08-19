@@ -21,6 +21,4 @@ public class RecipeDto {
     @NotEmpty(message = "Cooking method should not be empty")
     private String content;
     //private List<Ingredient> ingredients;
-    private LocalDateTime timeCreated;
-    private LocalDateTime timeUpdated;
 }

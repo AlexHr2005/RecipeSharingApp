@@ -32,8 +32,6 @@ public class RecipeService {
                 title(recipe.getTitle()).
                 content(recipe.getContent()).
                 photoUrl(recipe.getPhotoUrl()).
-                timeCreated(recipe.getTimeCreated()).
-                timeUpdated(recipe.getTimeUpdated()).
                 build();
     }
 
@@ -43,9 +41,15 @@ public class RecipeService {
                 title(recipeDto.getTitle()).
                 content(recipeDto.getContent()).
                 photoUrl(recipeDto.getPhotoUrl()).
-                timeCreated(recipeDto.getTimeCreated()).
-                timeUpdated(recipeDto.getTimeUpdated()).
                 build();
+    }
+
+    private Recipe mapToExistingRecipe(RecipeDto recipeDto) {
+        Recipe recipe = recipeRepository.findById(recipeDto.getId()).get();
+        recipe.setTitle(recipeDto.getTitle());
+        recipe.setPhotoUrl(recipeDto.getPhotoUrl());
+        recipe.setContent(recipeDto.getContent());
+        return recipe;
     }
 
     public Recipe saveRecipe(RecipeDto recipeDto) {
@@ -53,6 +57,6 @@ public class RecipeService {
     }
 
     public void updateRecipe(RecipeDto recipeDto) {
-        recipeRepository.save(mapToRecipe(recipeDto));
+        recipeRepository.save(mapToExistingRecipe(recipeDto));
     }
 }
