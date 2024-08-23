@@ -3,6 +3,7 @@ package com.recipeshare.project.controllers;
 import com.recipeshare.project.dto.RecipeDto;
 import com.recipeshare.project.services.RecipeService;
 import jakarta.validation.Valid;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,13 @@ public class RecipeController {
         List<RecipeDto> recipes = recipeService.findAllRecipes();
         model.addAttribute("recipes", recipes);
         return "list_of_recipes";
+    }
+
+    @GetMapping("/recipes/{recipeId}")
+    public String getRecipeDetails(@PathVariable("recipeId") Integer recipeId, Model model) {
+        RecipeDto recipeDto = recipeService.findRecipeById(recipeId);
+        model.addAttribute("recipe", recipeDto);
+        return "recipes_details";
     }
 
     @GetMapping("/recipes/create")

@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View more</a></div>
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" th:href="@{/recipes/{recipeId}(recipeId=${recipe.id})}">View more</a></div>
                     </div>
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center"><a class="btn btn-outline-dark mt-auto" th:href="@{/recipes/edit/{recipeId}(recipeId=${recipe.id})}">Edit</a></div>
