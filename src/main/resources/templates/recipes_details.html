@@ -22,11 +22,16 @@
           <!-- Preview image figure-->
           <figure class="mb-4"><img class="img-fluid rounded" th:src="${recipe.photoUrl}" /></figure>
           <!-- Post content-->
-          <section class="mb-5">
-            <h2 class="fw-bolder mb-4 mt-5">How to cook it?</h2>
-            <p class="fs-5 mb-4" th:text="${recipe.content}"></p>
-          </section>
+          <div class="card mb-5">
+            <div class="card-body">
+              <h2 class="fw-bolder mb-4 mt-5">How to cook it?</h2>
+              <p class="fs-5 mb-4" th:text="${recipe.content}"></p>
+            </div>
+          </div>
         </article>
+        <div class="mb-5">
+          <div><a class="btn btn-outline-danger" th:href="@{/recipes/delete/{recipeId}(recipeId=${recipe.id})}">Delete</a></div>
+        </div>
       </div>
       <!-- Side widgets-->
       <!-- <div class="col-lg-4">

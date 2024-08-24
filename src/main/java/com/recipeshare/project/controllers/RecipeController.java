@@ -7,10 +7,7 @@ import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +38,12 @@ public class RecipeController {
         RecipeDto recipe = new RecipeDto();
         model.addAttribute("recipe", recipe);
         return "recipes_create";
+    }
+
+    @GetMapping("/recipes/delete/{recipeId}")
+    public String deleteRecipe(@PathVariable("recipeId") Integer recipeId) {
+        recipeService.delete(recipeId);
+        return "redirect:/recipes";
     }
 
     @PostMapping("/recipes/create")

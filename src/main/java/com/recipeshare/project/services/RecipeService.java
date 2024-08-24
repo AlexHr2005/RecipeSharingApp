@@ -59,4 +59,8 @@ public class RecipeService {
     public void updateRecipe(RecipeDto recipeDto) {
         recipeRepository.save(mapToExistingRecipe(recipeDto));
     }
+
+    public void delete(Integer recipeId) {
+        recipeRepository.deleteById(recipeId);
+    }
 }
