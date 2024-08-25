@@ -1,9 +1,6 @@
 package com.recipeshare.project.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +8,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.ArrayList;
 
 @Builder
 @AllArgsConstructor
@@ -27,7 +23,8 @@ public class Recipe {
     private String title;
     private String photoUrl;
     private String content;
-    //private List<Ingredient> ingredients;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
+    private ArrayList<Ingredient> ingredients = new ArrayList<>();
     @CreationTimestamp
     private LocalDateTime timeCreated;
     @UpdateTimestamp
