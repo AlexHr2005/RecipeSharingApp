@@ -10,7 +10,7 @@
 
 <section layout:fragment="section" class="py-5">
   <div class="container">
-  <form role="form" method="get" th:action="@{/recipes/create}" th:object="${recipe}">
+  <form role="form" method="post" th:action="@{/recipes/create}" th:object="${recipe}">
     <div class="form-group">
       <label for="title">Title</label>
       <input type="text" class="form-control" th:field="*{title}" id="title">
