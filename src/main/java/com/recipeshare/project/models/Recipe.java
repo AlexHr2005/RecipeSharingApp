@@ -29,4 +29,8 @@ public class Recipe {
     private LocalDateTime timeCreated;
     @UpdateTimestamp
     private LocalDateTime timeUpdated;
+
+    public void addIngredient(Ingredient ingredient) {
+        ingredients.add(ingredient);
+    }
 }
