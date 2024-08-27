@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,5 +21,5 @@ public class RecipeDto {
     private String photoUrl;
     @NotEmpty(message = "Cooking method should not be empty")
     private String content;
-    private List<String> ingredients;
+    private List<String> ingredients = new ArrayList<>(0);
 }

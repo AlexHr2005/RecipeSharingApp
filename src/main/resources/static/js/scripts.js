@@ -1,7 +1,14 @@
-/*!
-* Start Bootstrap - Shop Homepage v5.0.6 (https://startbootstrap.com/template/shop-homepage)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
-*/
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
+function addIngredient() {
+    const ingredientsDiv = document.getElementById('ingredients');
+    const ingredientsCount = ingredientsDiv.getElementByTagName('input').length;
+    const newIngredient = document.createElement('div');
+    newIngredient.innerHtml = `
+        <input type="text" name="ingredients[${ingredientCount}]" />
+        <button type="button" onclick="removeIngredient(this)">Remove</button>
+    `;
+    ingredientDiv.appendChild(newIngredient);
+}
+
+function removeIngredient(button) {
+    button.parentElement.remove();
+}
