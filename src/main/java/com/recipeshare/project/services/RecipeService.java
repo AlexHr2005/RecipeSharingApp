@@ -30,12 +30,14 @@ public class RecipeService {
     }
 
     private RecipeDto mapToDto(Recipe recipe) {
-        return RecipeDto.builder().
+        RecipeDto recipeDto = RecipeDto.builder().
                 id(recipe.getId()).
                 title(recipe.getTitle()).
                 content(recipe.getContent()).
                 photoUrl(recipe.getPhotoUrl()).
                 build();
+        recipeDto.setIngredients(recipe.getIngredients().stream().map(Ingredient::getDescription).collect(Collectors.toList()));
+        return recipeDto;
     }
 
     private Recipe mapToRecipe(RecipeDto recipeDto) {
@@ -52,6 +54,16 @@ public class RecipeService {
         recipe.setTitle(recipeDto.getTitle());
         recipe.setPhotoUrl(recipeDto.getPhotoUrl());
         recipe.setContent(recipeDto.getContent());
+
+        recipe.clearIngredients();
+        ingredientService.deleteIngredientsByRecipeId(recipe.getId());
+        for(String ingredientDescription : recipeDto.getIngredients()) {
+            Ingredient ingredient = Ingredient.builder().
+                    description(ingredientDescription).
+                    recipe(recipe).
+                    build();
+            ingredientService.saveIngredient(ingredient);
+        }
         return recipe;
     }
 

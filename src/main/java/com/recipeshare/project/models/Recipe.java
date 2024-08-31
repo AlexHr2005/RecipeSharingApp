@@ -34,4 +34,8 @@ public class Recipe {
     public void addIngredient(Ingredient ingredient) {
         ingredients.add(ingredient);
     }
+
+    public void clearIngredients() {
+        ingredients.clear();
+    }
 }
