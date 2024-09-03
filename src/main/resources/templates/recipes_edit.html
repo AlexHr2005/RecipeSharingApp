@@ -5,6 +5,34 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit recipe</title>
+
+  <script>
+        function addIngredient() {
+            const ingredientDiv = document.getElementById('ingredients');
+            const ingredientCount = ingredientDiv.getElementsByTagName('input').length;
+            const newIngredient = document.createElement('div');
+            newIngredient.innerHTML = `
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" name="ingredients[${ingredientCount}]" />
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-outline-danger" onclick="removeIngredient(this)">Remove</button>
+                </div>
+              </div>
+            `;
+            ingredientDiv.appendChild(newIngredient);
+        }
+
+        function removeIngredient(button) {
+            const ingredientDiv = document.getElementById('ingredients');
+            button.parentElement.parentElement.remove();
+
+            const inputs = ingredientDiv.getElementsByTagName('input');
+            for (let i = 0; i < inputs.length; i++) {
+              inputs[i].setAttribute('name', `ingredients[${i}]`);
+            }
+        }
+    </script>
+
 </head>
 <body>
 
@@ -28,6 +56,23 @@
         <textarea class="form-control" th:field="*{content}" id="content" rows="3"></textarea>
         <p class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
       </div>
+
+      <div id="ingredients">
+        <label>Ingredients:</label>
+        <div th:each="ingredient, iterStat : *{ingredients}">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" th:field="*{ingredients[__${iterStat.index}__]}" />
+            <div class="input-group-append">
+              <button type="button" class="btn btn-outline-danger" onclick="removeIngredient(this)">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" class="btn btn-secondary" onclick="addIngredient()">Add Ingredient</button>
+      </div>
+
       <button type="submit" class="btn btn-primary">Update</button>
     </form>
   </div>

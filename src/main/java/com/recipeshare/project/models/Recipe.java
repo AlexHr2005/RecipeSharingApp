@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -24,9 +25,17 @@ public class Recipe {
     private String photoUrl;
     private String content;
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
-    private ArrayList<Ingredient> ingredients = new ArrayList<>();
+    private List<Ingredient> ingredients = new ArrayList<>();
     @CreationTimestamp
     private LocalDateTime timeCreated;
     @UpdateTimestamp
     private LocalDateTime timeUpdated;
+
+    public void addIngredient(Ingredient ingredient) {
+        ingredients.add(ingredient);
+    }
+
+    public void clearIngredients() {
+        ingredients.clear();
+    }
 }
