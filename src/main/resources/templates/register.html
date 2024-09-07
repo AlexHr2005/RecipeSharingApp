@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+</head>
+<body>
+
+<section layout:fragment="section" class="py-5">
+  <style>
+    .main {
+      padding: 0px 10px;
+    }
+
+    @media screen and (max-width: 450px) {
+      .login-form{
+        margin-top: 10%;
+      }
+      .register-form{
+        margin-top: 10%;
+      }
+    }
+    @media screen and (min-width: 768px){
+      .main{
+        margin-left: 30%;
+      }
+
+      .sidenav{
+        width: 40%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+      }
+    }
+  </style>
+  <div class="main">
+    <div class="col-md-6 col-sm-12">
+      <div class="login-form">
+        <form role="form" method="post" th:action="@{/register}" th:object="${user}">
+          <div class="form-group row">
+            <label for="inputUsername" class="col-sm-2 col-form-label">Username</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputUsername" placeholder="Username" th:field="*{username}">
+            </div>
+          </div>
+          <p th:if="${#fields.hasErrors('username')}" class="text-danger"></p>
+          <div class="form-group row">
+            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control" id="inputEmail" placeholder="Email" th:field="*{email}">
+            </div>
+          </div>
+          <p th:if="${#fields.hasErrors('email')}" class="text-danger"></p>
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="inputPassword" placeholder="Password" th:field="*{password}">
+            </div>
+          </div>
+          <p th:if="${#fields.hasErrors('password')}" class="text-danger"></p>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+          </div>
+          <p class="text-center text-muted mt-5 mb-0">Have already an account?
+            <a href="#!" class="fw-bold text-body"><u>Login here</u></a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

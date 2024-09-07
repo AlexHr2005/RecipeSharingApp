@@ -7,6 +7,8 @@ import com.recipeshare.project.repositories.RoleRepository;
 import com.recipeshare.project.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class UserService {
     private UserRepository userRepository;
@@ -29,6 +31,15 @@ public class UserService {
                 .username(registrationDto.getUsername())
                 .email(registrationDto.getEmail())
                 .password(registrationDto.getPassword())
+                .roles(new ArrayList<>())
                 .build();
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
