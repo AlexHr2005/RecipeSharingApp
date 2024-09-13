@@ -32,15 +32,15 @@ public class AuthController {
                                      Model model) {
         User existingUserWithUsername = userService.findByUsername(user.getUsername());
         if(existingUserWithUsername != null) {
-            result.rejectValue("username", "There is already a user with this username");
+            result.rejectValue("username", "username.used");
         }
         User existingUserWithEmail = userService.findByEmail(user.getEmail());
         if(existingUserWithEmail != null) {
-            result.rejectValue("email", "There is already a user with this email");
+            result.rejectValue("email", "password.used");
         }
         if(result.hasErrors()) {
-            model.addAttribute("recipe", user);
-            return "recipes_create";
+            model.addAttribute("user", user);
+            return "register";
         }
         userService.saveUser(user);
         return "redirect:/recipes?success";
