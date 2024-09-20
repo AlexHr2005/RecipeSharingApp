@@ -1,7 +1,7 @@
 package com.recipeshare.project.controllers;
 
 import com.recipeshare.project.dto.RegistrationDto;
-import com.recipeshare.project.models.User;
+import com.recipeshare.project.models.UserEntity;
 import com.recipeshare.project.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -35,11 +35,11 @@ public class AuthController {
     public String saveRegisteredUser(@Valid @ModelAttribute("user") RegistrationDto user,
                                      BindingResult result,
                                      Model model) {
-        User existingUserWithUsername = userService.findByUsername(user.getUsername());
+        UserEntity existingUserWithUsername = userService.findByUsername(user.getUsername());
         if(existingUserWithUsername != null) {
             result.rejectValue("username", "username.used");
         }
-        User existingUserWithEmail = userService.findByEmail(user.getEmail());
+        UserEntity existingUserWithEmail = userService.findByEmail(user.getEmail());
         if(existingUserWithEmail != null) {
             result.rejectValue("email", "password.used");
         }

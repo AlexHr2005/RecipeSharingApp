@@ -1,9 +1,9 @@
 package com.recipeshare.project.repositories;
 
-import com.recipeshare.project.models.User;
+import com.recipeshare.project.models.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
-    User findByEmail(String email);
-    User findByUsername(String username);
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+    UserEntity findByEmail(String email);
+    UserEntity findByUsername(String username);
 }
