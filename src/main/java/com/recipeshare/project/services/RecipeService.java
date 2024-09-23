@@ -3,7 +3,9 @@ package com.recipeshare.project.services;
 import com.recipeshare.project.dto.RecipeDto;
 import com.recipeshare.project.models.Ingredient;
 import com.recipeshare.project.models.Recipe;
+import com.recipeshare.project.models.UserEntity;
 import com.recipeshare.project.repositories.RecipeRepository;
+import com.recipeshare.project.security.SecurityUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +15,12 @@ import java.util.stream.Collectors;
 public class RecipeService {
     private RecipeRepository recipeRepository;
     private IngredientService ingredientService;
+    private UserService userService;
 
-    public RecipeService(RecipeRepository recipeRepository, IngredientService ingredientService) {
+    public RecipeService(RecipeRepository recipeRepository, IngredientService ingredientService, UserService userService) {
         this.recipeRepository = recipeRepository;
         this.ingredientService = ingredientService;
+        this.userService = userService;
     }
 
     public List<RecipeDto> findAllRecipes() {
@@ -35,6 +39,7 @@ public class RecipeService {
                 title(recipe.getTitle()).
                 content(recipe.getContent()).
                 photoUrl(recipe.getPhotoUrl()).
+                createdBy(recipe.getCreatedBy()).
                 build();
         recipeDto.setIngredients(recipe.getIngredients().stream().map(Ingredient::getDescription).collect(Collectors.toList()));
         return recipeDto;
@@ -46,6 +51,7 @@ public class RecipeService {
                 title(recipeDto.getTitle()).
                 content(recipeDto.getContent()).
                 photoUrl(recipeDto.getPhotoUrl()).
+                createdBy(recipeDto.getCreatedBy()).
                 build();
     }
 
@@ -54,6 +60,7 @@ public class RecipeService {
         recipe.setTitle(recipeDto.getTitle());
         recipe.setPhotoUrl(recipeDto.getPhotoUrl());
         recipe.setContent(recipeDto.getContent());
+        recipe.setCreatedBy(recipeDto.getCreatedBy());
 
         recipe.clearIngredients();
         ingredientService.deleteIngredientsByRecipeId(recipe.getId());
@@ -68,7 +75,11 @@ public class RecipeService {
     }
 
     public Recipe saveRecipe(RecipeDto recipeDto) {
-        Recipe recipe = recipeRepository.save(mapToRecipe(recipeDto));
+        String username = SecurityUtil.getSessionUser();
+        UserEntity user = userService.findByUsername(username);
+        Recipe recipe = mapToRecipe(recipeDto);
+        recipe.setCreatedBy(user);
+        recipe = recipeRepository.save(recipe);
         for(String ingredientDescription : recipeDto.getIngredients()) {
             Ingredient newIngredient = Ingredient.builder().
                     description(ingredientDescription).
@@ -80,7 +91,11 @@ public class RecipeService {
     }
 
     public void updateRecipe(RecipeDto recipeDto) {
-        recipeRepository.save(mapToExistingRecipe(recipeDto));
+        Recipe recipe = mapToExistingRecipe(recipeDto);
+        String username = SecurityUtil.getSessionUser();
+        UserEntity user = userService.findByUsername(username);
+        recipe.setCreatedBy(user);
+        recipeRepository.save(recipe);
     }
 
     public void delete(Integer recipeId) {

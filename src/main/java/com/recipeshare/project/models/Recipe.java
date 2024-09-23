@@ -24,6 +24,9 @@ public class Recipe {
     private String title;
     private String photoUrl;
     private String content;
+    @ManyToOne
+    @JoinColumn(name = "created_by", nullable = false)
+    private UserEntity createdBy;
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     private List<Ingredient> ingredients = new ArrayList<>();
     @CreationTimestamp

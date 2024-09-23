@@ -1,5 +1,6 @@
 package com.recipeshare.project.dto;
 
+import com.recipeshare.project.models.UserEntity;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,5 +22,6 @@ public class RecipeDto {
     private String photoUrl;
     @NotEmpty(message = "Cooking method should not be empty")
     private String content;
+    private UserEntity createdBy;
     private List<String> ingredients = new ArrayList<>(0);
 }
