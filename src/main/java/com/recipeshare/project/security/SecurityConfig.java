@@ -27,13 +27,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests
-                .requestMatchers("/login", "/register", "/recipes", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/login", "/register", "/recipes", "/recipes/{recipeId:\\d+}", "/css/**", "/js/**").permitAll()
                 .anyRequest().authenticated()
         )
         .formLogin(form -> form
                 .loginPage("/login")
                 .failureUrl("/login?error")
                 .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/recipes", true)
                 .permitAll()
         ).logout(logout -> logout
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
