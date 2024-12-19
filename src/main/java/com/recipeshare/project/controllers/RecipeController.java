@@ -7,25 +7,55 @@ import com.recipeshare.project.services.RecipeService;
 import com.recipeshare.project.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.boot.Banner;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 @Controller
 public class RecipeController {
     private RecipeService recipeService;
     private UserService userService;
+    private String uploadDir;
 
     public RecipeController(RecipeService recipeService, UserService userService) {
         this.recipeService = recipeService;
         this.userService = userService;
+        this.uploadDir = System.getenv("RECIPES_IMAGES");
+    }
+
+    //create an endpoint to fetch a recipe specific image according to image attribute
+    //not the model from GET mappings (the DTO) but the endpoint specified above should return a ResponseEntity
+
+    @GetMapping("/recipes/images/{recipeId}/{imageName}")
+    public ResponseEntity<byte[]> getImage(@PathVariable("recipeId") Integer recipeId,
+                                           @PathVariable("imageName") String name) throws IOException {
+        File image = new File(uploadDir + "/" + recipeId + "/" + name);
+
+        if(image.exists()) {
+            byte[] imageBytes = Files.readAllBytes(image.toPath());
+
+            HttpHeaders headers = new HttpHeaders();
+            String contentType = Files.probeContentType(image.toPath());
+            headers.setContentType(MediaType.parseMediaType(contentType));
+
+            return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/recipes")
-    public String listClubs(Model model) {
+    public String listRecipes(Model model) {
         UserEntity user = new UserEntity();
         String username = SecurityUtil.getSessionUser();
 
@@ -62,7 +92,7 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/delete/{recipeId}")
-    public String deleteRecipe(@PathVariable("recipeId") Integer recipeId) {
+    public String deleteRecipe(@PathVariable("recipeId") Integer recipeId) throws IOException {
         recipeService.delete(recipeId);
         return "redirect:/recipes";
     }
@@ -70,7 +100,7 @@ public class RecipeController {
     @PostMapping("/recipes/create")
     public String saveRecipe(@Valid @ModelAttribute("recipe") RecipeDto recipe,
                              BindingResult bindingResult,
-                             Model model) {
+                             Model model) throws IOException {
         if(bindingResult.hasErrors()) {
             model.addAttribute("recipe", recipe);
             return "recipes_create";
@@ -90,7 +120,7 @@ public class RecipeController {
     public String editRecipeForm(@PathVariable("recipeId") Integer id,
                                  @Valid @ModelAttribute("recipe") RecipeDto recipeDto,
                                  BindingResult bindingResult,
-                                 Model model) {
+                                 Model model) throws IOException {
         if(bindingResult.hasErrors()) {
             recipeDto.setId(id);
             model.addAttribute("recipe", recipeDto);

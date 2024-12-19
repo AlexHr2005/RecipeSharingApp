@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +21,8 @@ public class RecipeDto {
     private Integer id;
     @NotEmpty(message = "Recipe title should not be empty")
     private String title;
-    @NotEmpty(message = "Photo URL should not be empty")
-    private String photoUrl;
+    private MultipartFile imageFile;
+    private String imageName;
     @NotEmpty(message = "Cooking method should not be empty")
     private String content;
     private UserEntity createdBy;

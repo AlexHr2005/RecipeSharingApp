@@ -20,7 +20,7 @@
             <h1 class="fw-bolder mb-1" th:text="${recipe.title}"></h1>
           </header>
           <!-- Preview image figure-->
-          <figure class="mb-4"><img class="img-fluid rounded" th:src="${recipe.photoUrl}" /></figure>
+          <figure class="mb-4"><img class="img-fluid rounded" th:src="@{/recipes/images/{recipeId}/{imageName}(recipeId=${recipe.id}, imageName=${recipe.imageName})}" alt="Image" /></figure>
           <!-- Post content-->
           <div class="card mb-5">
             <div class="card-body">
